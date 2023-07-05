@@ -1,0 +1,21 @@
+{
+  "name": "suinpm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@0xobelisk/client": "^0.0.1",
+    "@mysten/sui.js": "^0.35.1",
+    "browser-resolve": "^2.0.0",
+    "browser-sync": "^2.29.3"
+  },
+  "devDependencies": {
+    "esmify": "^2.1.1"
+  }
+}

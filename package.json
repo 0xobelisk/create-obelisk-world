@@ -1,6 +1,6 @@
 {
   "name": "create-obelisk-world",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "license": "MIT",
   "author": "team@obelisk.build",
@@ -23,6 +23,10 @@
   },
   "engines": {
     "node": "^18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xobelisk/create-obelisk-world.git"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",

@@ -7,7 +7,7 @@ const cwd = process.cwd()
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
 }
-const defaultTargetDir = 'obelisk-project'
+const defaultTargetDir = 'obelisk-cocos-template-project'
 
 const init = async () => {
   const response = await prompts([
@@ -38,7 +38,7 @@ const init = async () => {
           ]
         } else if (platform === 'h5game') {
           return [
-            { title: 'Typescript', value: 'ts',disabled: true },
+            { title: 'Typescript', value: 'ts' },
           ]
         }
         return null

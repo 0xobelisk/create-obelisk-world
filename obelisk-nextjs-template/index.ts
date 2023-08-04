@@ -27,7 +27,7 @@ const main = async () => {
         networkType: NETWORK,
     });
     // const obeject_id = '0x97706e7066536b8c542c175e77eec801989cca8c3c4c68b80db056c5ca30330f'
-    // const result = await obelisk.getObjects([obeject_id])
+    // const result = await obelisk-cocos-template.getObjects([obeject_id])
     // console.log(result[0].objectFields.number)
     const world_id = '0xea07f58052bcdef935a3eee097d41a97bc4a0f0b1b60ff6b18f2caa858609bf8'
     const system_name = 'counter_change'

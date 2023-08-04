@@ -1,6 +1,6 @@
 {
   "name": "create-obelisk-world",
-  "version": "0.0.2",
+  "version": "0.1.8",
   "type": "module",
   "license": "MIT",
   "author": "team@obelisk.build",
@@ -9,7 +9,8 @@
   },
   "files": [
     "index.js",
-    "template-*",
+    "obelisk-cocos-template",
+    "obelisk-nextjs-template",
     "dist"
   ],
   "main": "index.js",

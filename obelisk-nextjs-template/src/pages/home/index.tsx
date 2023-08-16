@@ -1,26 +1,8 @@
-// import {
-//     Ed25519Keypair,
-//     JsonRpcProvider,
-//     RawSigner,
-//     TransactionBlock,
-//     localnetConnection
-// } from '@mysten/sui.js';
-//
-//
-// const keypair = Ed25519Keypair.generate()
-// const provider = new JsonRpcProvider();
-// const signer = new RawSigner(keypair, provider);
-// const tx = new TransactionBlock();
-// const user_sui_address = keypair.getPublicKey().toSuiAddress()
-// await provider.requestSuiFromFaucet(user_sui_address)
-//
-
-
 import {NetworkType, Obelisk} from "@0xobelisk/client";
-
+import {ConnectButton, useWallet} from '@suiet/wallet-kit';
+import {useEffect} from "react";
 
 const main = async () => {
-
     const NETWORK: NetworkType = 'testnet';
     const obelisk = new Obelisk({
         secretKey: 'c71a1529d774a80d521e02953ce656f1b1cef126451daacaebec763f8dd0b535',
@@ -36,4 +18,27 @@ const main = async () => {
     console.log(result)
 }
 
-main()
+// main()
+
+const Home = () =>{
+    // const wallet = useWallet()
+    //
+    // useEffect(() => {
+    //     if (!wallet.connected) return;
+    //     console.log('connected wallet name: ', wallet.name)
+    //     console.log('account address: ', wallet.account?.address)
+    //     console.log('account publicKey: ', wallet.account?.publicKey)
+    // }, [wallet.connected])
+    return (
+        <div>
+            <header>
+                <ConnectButton/>
+            </header>
+            <button onClick={main}>call system</button>
+        </div>
+    )
+}
+
+export default Home
+
+

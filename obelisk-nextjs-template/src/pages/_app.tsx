@@ -1,13 +1,15 @@
 import 'tailwindcss/tailwind.css';
 import type { AppProps } from 'next/app';
-import {WalletProvider} from '@suiet/wallet-kit';
-import '@suiet/wallet-kit/style.css';
+import { EthosConnectProvider } from 'ethos-connect';
 import "../css/font-awesome.css"
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-      <WalletProvider>
+      <EthosConnectProvider
+          ethosConfiguration={{}}
+      >
         <Component {...pageProps} />
-      </WalletProvider>
+      </EthosConnectProvider>
+
   )
 }
 

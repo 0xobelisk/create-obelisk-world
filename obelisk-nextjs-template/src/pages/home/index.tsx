@@ -1,40 +1,97 @@
-import {NetworkType, Obelisk} from "@0xobelisk/client";
-import {ConnectButton, useWallet} from '@suiet/wallet-kit';
+import {getMetadata, Obelisk,TransactionBlock} from "@0xobelisk/client";
+import { ethos, SignInButton } from 'ethos-connect'
 import {useEffect} from "react";
+import {useAtom} from "jotai";
+import {Value} from "../../jotai";
+import { useRouter } from "next/router";
+import {NETWORK, PACKAGE_ID, WORLD_ID} from "../../chain/config";
+import {obeliskConfig} from "../../../obelisk.config";
 
-const main = async () => {
-    const NETWORK: NetworkType = 'testnet';
-    const obelisk = new Obelisk({
-        secretKey: 'c71a1529d774a80d521e02953ce656f1b1cef126451daacaebec763f8dd0b535',
-        networkType: NETWORK,
-    });
-    // const obeject_id = '0x97706e7066536b8c542c175e77eec801989cca8c3c4c68b80db056c5ca30330f'
-    // const result = await obelisk-cocos-template.getObjects([obeject_id])
-    // console.log(result[0].objectFields.number)
-    const world_id = '0xea07f58052bcdef935a3eee097d41a97bc4a0f0b1b60ff6b18f2caa858609bf8'
-    const system_name = 'counter_change'
-    const counter =  '0x97706e7066536b8c542c175e77eec801989cca8c3c4c68b80db056c5ca30330f'
-    const result= await obelisk.call(world_id,system_name,counter)
-    console.log(result)
+type data = {
+    type:string;
+    fields:Record<string, any>;
+    hasPublicTransfer:boolean;
+    dataType:"moveObject";
 }
 
-// main()
-
 const Home = () =>{
-    // const wallet = useWallet()
-    //
-    // useEffect(() => {
-    //     if (!wallet.connected) return;
-    //     console.log('connected wallet name: ', wallet.name)
-    //     console.log('account address: ', wallet.account?.address)
-    //     console.log('account publicKey: ', wallet.account?.publicKey)
-    // }, [wallet.connected])
+    const router = useRouter()
+    const { wallet } = ethos.useWallet()
+    const [value,setValue] = useAtom(Value)
+
+    const counter = async (wallet:any) => {
+        const metadata = await getMetadata(NETWORK, PACKAGE_ID);
+        const obelisk = new Obelisk({
+            networkType: NETWORK,
+            packageId: PACKAGE_ID,
+            metadata: metadata,
+        });
+        const tx = new TransactionBlock()
+        const world = tx.pure(WORLD_ID)
+        const params = [
+            world,
+
+        ]
+        const new_tx = await obelisk.tx.counter_system.inc(tx, params,true) as TransactionBlock;
+        const response = await wallet.signAndExecuteTransactionBlock({
+            transactionBlock:new_tx,
+            options: {
+                showObjectChanges: true,
+            }
+        })
+        if (response.effects.status.status == 'success') {
+            const metadata = await getMetadata(NETWORK, PACKAGE_ID);
+            const obelisk = new Obelisk({
+                networkType: NETWORK,
+                packageId: PACKAGE_ID,
+                metadata: metadata,
+            });
+
+            const component_name = Object.keys(obeliskConfig.singletonComponents)[1]
+            const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
+            const content = component_value.data.content as data
+            const value = content.fields.value.fields.value
+            setValue(value)
+        }
+    }
+
+    useEffect(() => {
+        if (router.isReady){
+            const query_counter = async () => {
+                const metadata = await getMetadata(NETWORK, PACKAGE_ID);
+                const obelisk = new Obelisk({
+                    networkType: NETWORK,
+                    packageId: PACKAGE_ID,
+                    metadata: metadata,
+                });
+                // home component name
+                const component_name = Object.keys(obeliskConfig.singletonComponents)[1]
+                const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
+                const content = component_value.data.content as data
+                const value = content.fields.value.fields.value
+                setValue(value)
+            }
+            query_counter()
+        }
+    }, [router.isReady]);
+
+
+
     return (
         <div>
             <header>
-                <ConnectButton/>
             </header>
-            <button onClick={main}>call system</button>
+            <SignInButton>
+                Connect wallet
+             </SignInButton>
+            <div>
+                counter: {value}
+            </div>
+            <div>
+                <button onClick={()=>{
+                    counter(wallet)
+                }}>Counter++</button>
+            </div>
         </div>
     )
 }

@@ -7,5 +7,7 @@ const SellState = atom({
     state:false
 })
 const OpenBoxState = atom(false)
+const Value = atom("")
 
-export {SellPop_up_boxState,SellState,OpenBoxState}
+
+export {SellPop_up_boxState,SellState,OpenBoxState,Value}

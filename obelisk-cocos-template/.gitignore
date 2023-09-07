@@ -7,7 +7,11 @@ local/
 build/
 profiles/
 native
-#//////////////////////////
+
+# misc
+.DS_Store
+*.pem
+
 # NPM
 #//////////////////////////
 node_modules/
@@ -21,3 +25,4 @@ node_modules/
 # WebStorm
 #//////////////////////////
 .idea/
+

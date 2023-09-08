@@ -1,6 +1,6 @@
 {
   "name": "create-obelisk-world",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "license": "MIT",
   "author": "team@obelisk.build",
@@ -17,8 +17,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "unbuild && node index.js",
-    "build": "unbuild",
-    "publish": "unbuild && npm publish ."
+    "build": "unbuild"
   },
   "publishConfig": {
     "access": "public"

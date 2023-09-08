@@ -21,7 +21,7 @@
     "worldpublsih-devnet": "obelisk publish --network devnet --configPath obelisk.config.ts --savePath src/chain/config.ts",
     "worldpublsih-testnet": "obelisk publish --network testnet --configPath obelisk.config.ts --savePath src/chain/config.ts",
     "worldpublsih-mainnet": "obelisk publish --network mainnet --configPath obelisk.config.ts --savePath src/chain/config.ts",
-    "localnode": "nohup obelisk localnode > localnode.nohup.out &",
+    "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
     "@0xobelisk/cli": "^0.0.7",

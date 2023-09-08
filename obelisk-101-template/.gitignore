@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+localnode.nohup.out
+
 src/chain
 
 contracts/Counter/build
+

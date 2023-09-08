@@ -122,16 +122,27 @@ const init = async () => {
       }`,
     )
   }
-  switch (pkgManager) {
-    case 'yarn':
-      console.log('  yarn')
-      console.log('  yarn dev')
-      break
-    default:
-      console.log(`  ${pkgManager} install`)
-      console.log(`  ${pkgManager} run dev`)
-      break
+  if (tool == '101'){
+    console.log(`  ${pkgManager} install`)
+    console.log(`  ${pkgManager} run dev`)
   }
+  else if (tool == 'nextjs'){
+    console.log(`  ${pkgManager} install`)
+    console.log(`  ${pkgManager} run dev`)
+  }
+  else if (tool == 'cocos') {
+    console.log(`  import project by cocos create id `)
+  }
+  // switch (pkgManager) {
+  //   case 'yarn':
+  //     console.log('  yarn')
+  //     console.log('  yarn dev')
+  //     break
+  //   default:
+  //     console.log(`  ${pkgManager} install`)
+  //     console.log(`  ${pkgManager} run dev`)
+  //     break
+  // }
   console.log()
 }
 

@@ -5,7 +5,8 @@
   "author": "0xobelisk@henry.com",
   "license": "GPL3",
   "scripts": {
-    "dev": "pnpm run localnode && sleep 5 && node src/scripts/index.js && obelisk faucet --network localnet && obelisk publish --network localnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
+    "dev": "pnpm run start-template",
+    "start-template": "pnpm run localnode && sleep 5 && node src/scripts/index.js && obelisk faucet --network localnet && obelisk publish --network localnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",

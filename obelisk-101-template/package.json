@@ -5,7 +5,7 @@
   "author": "0xobelisk@henry.com",
   "license": "GPL3",
   "scripts": {
-    "dev": "next",
+    "dev": "pnpm run localnode && sleep 5 && node src/scripts/index.js && obelisk faucet --network localnet && obelisk publish --network localnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
@@ -21,7 +21,6 @@
     "worldpublsih-testnet": "obelisk publish --network testnet --configPath obelisk.config.ts --savePath src/chain/config.ts",
     "worldpublsih-mainnet": "obelisk publish --network mainnet --configPath obelisk.config.ts --savePath src/chain/config.ts",
     "localnode": "nohup obelisk localnode > localnode.nohup.out &",
-    "start-template": "pnpm run localnode && sleep 2 && node src/scripts/index.js && obelisk faucet --network localnet && obelisk publish --network localnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next"
   },
   "dependencies": {
     "@0xobelisk/cli": "^0.0.7",

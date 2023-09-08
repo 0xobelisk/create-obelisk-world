@@ -22,6 +22,7 @@ const init = async () => {
       name: 'platform',
       message: 'Pick your platform.',
       choices: [
+        { title: '101', description: 'Quick start', value: 'web' },
         { title: 'Web', description: 'Web', value: 'h5' },
         { title: 'Cocos', description: 'Cocos Creator', value: 'h5game' }
       ],
@@ -32,11 +33,17 @@ const init = async () => {
       name: 'framework',
       message: 'Pick your framework.',
       choices: (platform) => {
-        if (platform === 'h5') {
+        if (platform === 'web') {
+          return [
+            { title: 'Nextjs', value: 'nextjs' },
+          ]
+        }
+        else if (platform === 'h5') {
           return [
             { title: 'Nextjs', value: 'nextjs' }
           ]
-        } else if (platform === 'h5game') {
+        }
+        else if (platform === 'h5game') {
           return [
             { title: 'Typescript', value: 'ts' },
           ]
@@ -49,14 +56,23 @@ const init = async () => {
   const { projectName, platform, framework } = response
   let tool = ''
   let target = ''
-  if (platform === 'h5') {
+  if (platform === 'web') {
+    tool = '101'
+  }
+  else if (platform === 'h5') {
     tool = 'nextjs'
-  } else {
+  }
+  else {
     tool = 'cocos'
   }
+
   if (framework === 'nextjs') {
     target = `obelisk-${tool}-template`
-  } else {
+  }
+  else if (framework === '101') {
+    target = `obelisk-${tool}-template`
+  }
+  else {
     target = `obelisk-${tool}-template`
   }
   let targetDir = projectName || defaultTargetDir

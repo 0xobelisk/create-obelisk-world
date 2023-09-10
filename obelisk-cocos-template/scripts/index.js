@@ -8,7 +8,7 @@ const privateKey = Buffer.from(privateKey_u8).toString('hex');
 
 const path = process.cwd()
 
-const chainFolderPath = `${path}./assets/Scripts/chain`;
+const chainFolderPath = `${path}/assets/Scripts/chain`;
 fs.mkdirSync(chainFolderPath, { recursive: true });
 
 fs.writeFileSync(`${path}/.env`, `PRIVATE_KEY=${privateKey}`);

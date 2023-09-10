@@ -30,8 +30,6 @@ node_modules/
 
 localnode.nohup.out
 
-assets/Scripts/chain
-
 contracts/Counter/build
 
 pnpm-lock.yaml

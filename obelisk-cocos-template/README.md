@@ -2,9 +2,9 @@
 ```bash
 
 1 install sui <https://docs.sui.io/build/install>
-2 pnpm i
-3 pnpm run dev
-4 import project by cocos create IDE
+2 import project by cocos create IDE
+3 pnpm i
+4 pnpm run dev
 5 start your cocos project 
 ```
 

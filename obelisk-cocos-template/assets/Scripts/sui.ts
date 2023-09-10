@@ -1,4 +1,4 @@
-import { _decorator, Component, log, Node,find, sys } from 'cc';
+import { _decorator, Component,find, sys } from 'cc';
 import { obeliskConfig } from './obelisk.config';
 import { NETWORK, PACKAGE_ID, WORLD_ID } from './chain/config';
 
@@ -22,12 +22,12 @@ export class sui extends Component {
 
     async sui_account_create(){
         // @ts-ignore
-        const sui  = window.sui;
+        // const sui  = window.sui;
          // @ts-ignore
         const obelisk_sdk = window.obelisk;
         const decode = JSON.parse(sys.localStorage.getItem('userWalletData'));
         if (decode == null){
-            const keypair = new sui.Ed25519Keypair();
+            const keypair = new obelisk_sdk.Ed25519Keypair();
             const wallet = keypair.export()
             const code = JSON.stringify(wallet)
             sys.localStorage.setItem('userWalletData', code);
@@ -55,18 +55,21 @@ export class sui extends Component {
             const label = counter_node.getComponent("cc.Label")
             label.string = `当前counter数值为${value}`
         }
-        
+
     }
 
 
     export_wallet(){
         // @ts-ignore
-        const sui  = window.sui;
-        const fromB64 = sui.fromB64;
+        // const sui  = window.sui;
+        // const fromB64 = sui.fromB64;
+        // @ts-ignore
+        const obelisk_sdk = window.obelisk;
+        const fromB64 = obelisk_sdk.fromB64;
         const decode = JSON.parse(sys.localStorage.getItem('userWalletData'));
         const decode_private_key = decode.privateKey;
         const base_64_privkey = fromB64(decode_private_key);
-        const keypair = sui.Ed25519Keypair.fromSecretKey(base_64_privkey,{skipValidation:false});
+        const keypair = obelisk_sdk.Ed25519Keypair.fromSecretKey(base_64_privkey,{skipValidation:false});
         const address = keypair.getPublicKey().toSuiAddress();
         console.log(address);
         const hex_privkey = Array.prototype.map.call(base_64_privkey, x => ('00' + x.toString(16)).slice(-2)).join('');
@@ -79,7 +82,7 @@ export class sui extends Component {
         const metadata = await obelisk_sdk.getMetadata(NETWORK, PACKAGE_ID);
 
         const privateKey = this.export_wallet();
-    
+
         // new obelisk class
         const obelisk = new obelisk_sdk.Obelisk({
             networkType: NETWORK,
@@ -112,14 +115,14 @@ export class sui extends Component {
                 const counter_node = find('Canvas/Camera/counter')
                 const label = counter_node.getComponent("cc.Label")
                 label.string = `当前counter数值为${value}`
-            }, 
+            },
             1000
-        )   
-        
+        )
+
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

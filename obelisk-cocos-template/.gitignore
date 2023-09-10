@@ -26,3 +26,10 @@ node_modules/
 #//////////////////////////
 .idea/
 
+.env
+
+localnode.nohup.out
+
+assets/Scripts/chain
+
+contracts/Counter/build

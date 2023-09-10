@@ -132,6 +132,8 @@ const init = async () => {
   }
   else if (tool == 'cocos') {
     console.log(`  import project by cocos create ide `)
+    console.log(`  ${pkgManager} install`)
+    console.log(`  ${pkgManager} run dev`)
   }
   // switch (pkgManager) {
   //   case 'yarn':

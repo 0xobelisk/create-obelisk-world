@@ -1,8 +1,8 @@
 {
-  "name": "learn1",
+  "name": "obelisk-nextjs-template",
   "version": "0.0.1",
   "description": "Simple starter template",
-  "author": "web3henry",
+  "author": "herny@0xobelisk.com",
   "license": "GPL3",
   "scripts": {
     "dev": "pnpm run start-template",
@@ -24,9 +24,9 @@
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/cli": "^0.0.7",
-    "@0xobelisk/client": "0.1.1",
-    "@0xobelisk/common": "^0.0.2",
+    "@0xobelisk/cli": "^0.1.3",
+    "@0xobelisk/client": "^0.1.3",
+    "@0xobelisk/common": "^0.1.3",
     "@mysten/sui.js": "^0.41.0",
     "@suiet/wallet-kit": "^0.2.19",
     "clsx": "^1.2.1",

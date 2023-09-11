@@ -1,5 +1,5 @@
 {
-  "name": "cocos1",
+  "name": "obelisk-cocos-template",
   "uuid": "ba0d698f-d890-4886-831d-0920a44b3236",
   "creator": {
     "version": "3.8.0"
@@ -17,9 +17,9 @@
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/cli": "^0.0.7",
-    "@0xobelisk/client": "0.1.1",
-    "@0xobelisk/common": "^0.0.2"
+    "@0xobelisk/cli": "^0.1.3",
+    "@0xobelisk/client": "^0.1.3",
+    "@0xobelisk/common": "^0.1.3"
   },
   "devDependencies": {
     "@types/node": "18.16.16",

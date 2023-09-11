@@ -1,5 +1,5 @@
 export const obeliskConfig = {
-    project_name: "Counter",
+    projectName: "Counter",
     systems: [
         "counter_system",
     ],

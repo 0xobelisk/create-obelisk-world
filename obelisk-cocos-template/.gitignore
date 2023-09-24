@@ -30,6 +30,7 @@ node_modules/
 
 localnode.nohup.out
 
-contracts/Counter/build
+contracts/counter/build
+contracts/counter/.history
 
 pnpm-lock.yaml

@@ -2704,14 +2704,11 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],6:[function(require,module,exports){
-var sui = require('@mysten/sui.js');
 var obelisk = require('@0xobelisk/client');
 
-// var web3games = require('@web3games/web3games.js');
 window.obelisk = obelisk;
-window.sui = sui
 
-},{"@0xobelisk/client":7,"@mysten/sui.js":45}],7:[function(require,module,exports){
+},{"@0xobelisk/client":7}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2723,11 +2720,6 @@ var _exportNames = {
   SuiContractFactory: true,
   SuiTxBlock: true,
   getMetadata: true,
-  TransactionBlock: true,
-  SUI_CLOCK_OBJECT_ID: true,
-  SUI_SYSTEM_STATE_OBJECT_ID: true,
-  fromB64: true,
-  toB64: true,
   Ed25519Keypair: true
 };
 Object.defineProperty(exports, "Ed25519Keypair", {
@@ -2736,42 +2728,22 @@ Object.defineProperty(exports, "Ed25519Keypair", {
     return _ed.Ed25519Keypair;
   }
 });
-exports.Obelisk = void 0;
-Object.defineProperty(exports, "SUI_CLOCK_OBJECT_ID", {
-  enumerable: true,
-  get: function () {
-    return _sui.SUI_CLOCK_OBJECT_ID;
-  }
-});
-Object.defineProperty(exports, "SUI_SYSTEM_STATE_OBJECT_ID", {
-  enumerable: true,
-  get: function () {
-    return _sui.SUI_SYSTEM_STATE_OBJECT_ID;
-  }
-});
-exports.SuiTxBlock = exports.SuiContractFactory = exports.SuiAccountManager = void 0;
-Object.defineProperty(exports, "TransactionBlock", {
-  enumerable: true,
-  get: function () {
-    return _sui.TransactionBlock;
-  }
-});
-Object.defineProperty(exports, "fromB64", {
-  enumerable: true,
-  get: function () {
-    return _sui.fromB64;
-  }
-});
+exports.SuiTxBlock = exports.SuiContractFactory = exports.SuiAccountManager = exports.Obelisk = void 0;
 exports.getMetadata = getMetadata;
-Object.defineProperty(exports, "toB64", {
-  enumerable: true,
-  get: function () {
-    return _sui.toB64;
-  }
-});
 var _sui = require("@mysten/sui.js");
+Object.keys(_sui).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _sui[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _sui[key];
+    }
+  });
+});
 var _ed = require("@mysten/sui.js/keypairs/ed25519");
-var _bcs = require("@mysten/sui.js/bcs");
+var _bcs = require("@mysten/bcs");
 Object.keys(_bcs).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -3509,14 +3481,8 @@ var SuiContractFactory = class {
   //   }
 };
 
-// src/utils/index.ts
-exports.SuiContractFactory = SuiContractFactory;
-function capitalizeFirstLetter(input) {
-  return input.charAt(0).toUpperCase() + input.slice(1);
-}
-
 // src/obelisk.ts
-
+exports.SuiContractFactory = SuiContractFactory;
 function isUndefined(value) {
   return value === void 0;
 }
@@ -3587,28 +3553,30 @@ var Obelisk = class {
     fullnodeUrls = fullnodeUrls || [getDefaultConnection(networkType).fullnode];
     this.suiInteractor = new SuiInteractor(fullnodeUrls, networkType);
     this.packageId = packageId;
-    this.metadata = metadata;
-    Object.values(metadata).forEach(value => {
-      let data = value;
-      let moduleName = data.name;
-      Object.entries(data.exposedFunctions).forEach(([funcName, value2]) => {
-        let meta = value2;
-        meta.moudleName = moduleName;
-        meta.funcName = funcName;
-        if (isUndefined(__privateGet(this, _query)[moduleName])) {
-          __privateGet(this, _query)[moduleName] = {};
-        }
-        if (isUndefined(__privateGet(this, _query)[moduleName][funcName])) {
-          __privateGet(this, _query)[moduleName][funcName] = createQuery(meta, (tx, p, isRaw) => __privateGet(this, _read).call(this, meta, tx, p, isRaw));
-        }
-        if (isUndefined(__privateGet(this, _tx)[moduleName])) {
-          __privateGet(this, _tx)[moduleName] = {};
-        }
-        if (isUndefined(__privateGet(this, _tx)[moduleName][funcName])) {
-          __privateGet(this, _tx)[moduleName][funcName] = createTx(meta, (tx, p, isRaw) => __privateGet(this, _exec).call(this, meta, tx, p, isRaw));
-        }
+    if (metadata !== void 0) {
+      this.metadata = metadata;
+      Object.values(metadata).forEach(value => {
+        let data = value;
+        let moduleName = data.name;
+        Object.entries(data.exposedFunctions).forEach(([funcName, value2]) => {
+          let meta = value2;
+          meta.moudleName = moduleName;
+          meta.funcName = funcName;
+          if (isUndefined(__privateGet(this, _query)[moduleName])) {
+            __privateGet(this, _query)[moduleName] = {};
+          }
+          if (isUndefined(__privateGet(this, _query)[moduleName][funcName])) {
+            __privateGet(this, _query)[moduleName][funcName] = createQuery(meta, (tx, p, isRaw) => __privateGet(this, _read).call(this, meta, tx, p, isRaw));
+          }
+          if (isUndefined(__privateGet(this, _tx)[moduleName])) {
+            __privateGet(this, _tx)[moduleName] = {};
+          }
+          if (isUndefined(__privateGet(this, _tx)[moduleName][funcName])) {
+            __privateGet(this, _tx)[moduleName][funcName] = createTx(meta, (tx, p, isRaw) => __privateGet(this, _exec).call(this, meta, tx, p, isRaw));
+          }
+        });
       });
-    });
+    }
     this.contractFactory = new SuiContractFactory({
       packageId,
       metadata
@@ -3785,19 +3753,20 @@ var Obelisk = class {
   async getWorld(worldObjectId) {
     return this.suiInteractor.getObject(worldObjectId);
   }
-  async getComponents(worldId) {
-    const parentId = (await this.suiInteractor.getObject(worldId)).objectFields.components.fields.id.id;
-    return await this.suiInteractor.getDynamicFields(parentId);
+  async getComponents(worldId, cursor, limit) {
+    const parentId = (await this.suiInteractor.getObject(worldId)).objectFields.comps.fields.id.id;
+    return await this.suiInteractor.getDynamicFields(parentId, cursor, limit);
   }
   async getComponentByName(worldId, componentName) {
-    const componentId = (0, _keccak.default)(`${capitalizeFirstLetter(componentName)} Component`);
+    const componentNameId = `${componentName}`;
+    const componentId = (0, _keccak.default)(componentNameId);
     return await this.getComponent(worldId, componentId);
   }
   async getComponent(worldId, componentId) {
     const componentIdValue = Array.from(componentId);
-    const parentId = (await this.suiInteractor.getObject(worldId)).objectFields.components.fields.id.id;
+    const parentId = (await this.suiInteractor.getObject(worldId)).objectFields.comps.fields.id.id;
     const name = {
-      type: "vector<u8>",
+      type: "address",
       value: componentIdValue
       // value: [250,208,186,160,39,171,62,206,98,224,138,41,11,217,63,100,248,104,207,64,78,126,43,109,129,68,64,127,236,113,152,132]
     };
@@ -3834,7 +3803,7 @@ async function getMetadata(networkType, packageId) {
   }
 }
 
-},{"@mysten/sui.js":45,"@mysten/sui.js/bcs":9,"@mysten/sui.js/faucet":17,"@mysten/sui.js/keypairs/ed25519":19,"@scure/bip39":131,"@scure/bip39/wordlists/english":132,"keccak256":140}],8:[function(require,module,exports){
+},{"@mysten/bcs":8,"@mysten/sui.js":45,"@mysten/sui.js/faucet":17,"@mysten/sui.js/keypairs/ed25519":19,"@scure/bip39":131,"@scure/bip39/wordlists/english":132,"keccak256":140}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

@@ -14,12 +14,13 @@
     "worldpublsih-devnet": "obelisk publish --network devnet --configPath ./assets/Scripts/obelisk.config.ts --savePath assets/Scripts/chain/config.ts",
     "worldpublsih-testnet": "obelisk publish --network testnet --configPath ./assets/Scripts/obelisk.config.ts --savePath assets/Scripts/chain/config.ts",
     "worldpublsih-mainnet": "obelisk publish --network mainnet --configPath ./assets/Scripts/obelisk.config.ts --savePath assets/Scripts/chain/config.ts",
+    "world-upgrade": "obelisk upgrade --configPath ./assets/Scripts/obelisk.config.ts --savePath assets/Scripts/chain/config.ts",
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/cli": "^0.1.3",
-    "@0xobelisk/client": "^0.1.3",
-    "@0xobelisk/common": "^0.1.3"
+    "@0xobelisk/common": "^0.2.6",
+    "@0xobelisk/client": "^0.2.6",
+    "@0xobelisk/cli": "^0.2.6"
   },
   "devDependencies": {
     "@types/node": "18.16.16",

@@ -1,4 +1,4 @@
-import {getMetadata, Obelisk,TransactionBlock} from "@0xobelisk/client";
+import {BCS, getMetadata, getSuiMoveConfig, Obelisk, TransactionBlock} from "@0xobelisk/client";
 import {useWallet} from '@suiet/wallet-kit';
 import {useEffect} from "react";
 import {useAtom} from "jotai";
@@ -50,10 +50,13 @@ const Home = () =>{
                 metadata: metadata,
             });
 
-            const component_name = Object.keys(obeliskConfig.singletonComponents)[1]
+            const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
             const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-            const content = component_value.data.content as data
-            const value = content.fields.value.fields.value
+            const content = component_value.data!.content as data;
+            const res = content.fields!.value!.fields.data;
+            const bcs = new BCS(getSuiMoveConfig());
+            const byteArray = new Uint8Array(res);
+            const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
             setValue(value)
         }
     }
@@ -68,10 +71,13 @@ const Home = () =>{
                     metadata: metadata,
                 });
                 // home component name
-                const component_name = Object.keys(obeliskConfig.singletonComponents)[1]
+                const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
                 const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-                const content = component_value.data.content as data
-                const value = content.fields.value.fields.value
+                const content = component_value.data!.content as data;
+                const res = content.fields!.value!.fields.data;
+                const bcs = new BCS(getSuiMoveConfig());
+                const byteArray = new Uint8Array(res);
+                const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
                 setValue(value)
             }
             query_counter()

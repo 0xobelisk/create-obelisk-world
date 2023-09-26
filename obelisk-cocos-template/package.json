@@ -18,9 +18,9 @@
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/common": "^0.2.6",
-    "@0xobelisk/client": "^0.2.6",
-    "@0xobelisk/cli": "^0.2.6"
+    "@0xobelisk/common": "^0.2.8",
+    "@0xobelisk/client": "^0.2.8",
+    "@0xobelisk/cli": "^0.2.8"
   },
   "devDependencies": {
     "@types/node": "18.16.16",

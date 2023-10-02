@@ -1,0 +1,3 @@
+
+const PRIVATEKEY = 'b717b9893a73ffc274d1294510e08247e8ebe0e5a116fec7b88bcdb195267a35'
+export default PRIVATEKEY

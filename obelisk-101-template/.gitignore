@@ -39,7 +39,5 @@ yarn-error.log*
 
 localnode.nohup.out
 
-src/chain
-
-contracts/Counter/build
-
+contracts/counter/build
+contracts/counter/.history

@@ -6,17 +6,17 @@ settings:
 
 dependencies:
   '@0xobelisk/cli':
-    specifier: ^0.0.7
-    version: 0.0.7(google-protobuf@3.21.2)
+    specifier: ^0.2.9
+    version: 0.2.9(google-protobuf@3.21.2)
   '@0xobelisk/client':
-    specifier: 0.0.9
-    version: 0.0.9(@mysten/sui.js@0.37.1)
+    specifier: ^0.2.9
+    version: 0.2.9(@mysten/sui.js@0.41.1)
   '@0xobelisk/common':
-    specifier: ^0.0.2
-    version: 0.0.2(google-protobuf@3.21.2)
+    specifier: ^0.2.9
+    version: 0.2.9(google-protobuf@3.21.2)
   '@mysten/sui.js':
-    specifier: ^0.37.1
-    version: 0.37.1
+    specifier: ^0.41.0
+    version: 0.41.1
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
@@ -127,12 +127,12 @@ devDependencies:
 
 packages:
 
-  /@0xobelisk/cli@0.0.7(google-protobuf@3.21.2):
-    resolution: {integrity: sha512-bsB9iCqU06TS0ReVrn2HSHl2ZEgG/ekKYNBu8aCOmO/LNkPgyKKlERzKjdxVOmTMrztxmGL6jDa8c9Vv01sA4g==}
+  /@0xobelisk/cli@0.2.9(google-protobuf@3.21.2):
+    resolution: {integrity: sha512-/hVNhx7UZsHb5jpyj63bfjegeLWIlIk+b0cto0k2v2Ei3HgQWsHvV+PPyV8EzwC3OmPclkxozKT4naQL1L/3iQ==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      '@0xobelisk/common': 0.0.2(google-protobuf@3.21.2)
+      '@0xobelisk/common': 0.2.9(google-protobuf@3.21.2)
       '@mysten/sui.js': 0.41.1
       chalk: 5.3.0
       child_process: 1.0.2
@@ -162,15 +162,14 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@0xobelisk/client@0.0.9(@mysten/sui.js@0.37.1):
-    resolution: {integrity: sha512-JYAVIcP8oC2lpgXYXGbJd6jx/qw0BYyi6o+B6LFnDXcCYkz0JI6lypVVCAy+ahbR7ZQKjVfeow3SxkvZhEZvIQ==}
+  /@0xobelisk/client@0.2.9(@mysten/sui.js@0.41.1):
+    resolution: {integrity: sha512-nwnOlB1xw72ln3gxmCWOUIoxZNTrNXJhr0fW9f+mMOGnlnNtdmJIXMNUSQxEs83i2SM7SD1faKZ1o23q/8h9MA==}
     engines: {node: '>=18'}
     peerDependencies:
-      '@mysten/sui.js': ^0.37.1
+      '@mysten/sui.js': ^0.41.0
     dependencies:
       '@mysten/bcs': 0.7.3
-      '@mysten/sui.js': 0.37.1
-      '@obelisk/common': link:../common
+      '@mysten/sui.js': 0.41.1
       '@scure/bip39': 1.2.1
       assert: 2.0.0
       colorts: 0.1.63
@@ -182,8 +181,8 @@ packages:
       ts-retry-promise: 0.7.1
     dev: false
 
-  /@0xobelisk/common@0.0.2(google-protobuf@3.21.2):
-    resolution: {integrity: sha512-wAEbbi5NCaoTTpa8dDBijdASn4trj8M3VmK79fBeXGLQ434arQFEdg7hfN9PPS27aI71KsJHjfgYFYpn6OEMwA==}
+  /@0xobelisk/common@0.2.9(google-protobuf@3.21.2):
+    resolution: {integrity: sha512-amwMaJq8uUVHaIwp8SlTULscyYMv3t5IesxQfeIwjCcm3LwXIExxeN4ZYtssjvbVoIeSyhkGdFrUXd6mySRRqQ==}
     engines: {node: '>=18'}
     dependencies:
       '@mysten/sui.js': 0.41.1
@@ -1226,26 +1225,6 @@ packages:
     resolution: {integrity: sha512-fbusBfsyc2MpTACi72H5edWJ670T84va+qn9jSPpb5BzZ+pzUM1Q0ApPrF5OT+mB1o5Ng+mxPQpBCZQkfiV2TA==}
     dependencies:
       bs58: 5.0.0
-    dev: false
-
-  /@mysten/sui.js@0.37.1:
-    resolution: {integrity: sha512-nEOqnjUqb/VJcVk23LgZOX1FmBib/mBCwAWaJhtsCHLwv2jIAfCPY/fpB9lJ62QHrM8UFclpWxsLkqcUkKyPgA==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@mysten/bcs': 0.7.3
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@open-rpc/client-js': 1.8.1
-      '@scure/bip32': 1.3.2
-      '@scure/bip39': 1.2.1
-      '@suchipi/femver': 1.0.0
-      events: 3.3.0
-      superstruct: 1.0.3
-      tweetnacl: 1.0.3
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
     dev: false
 
   /@mysten/sui.js@0.41.1:

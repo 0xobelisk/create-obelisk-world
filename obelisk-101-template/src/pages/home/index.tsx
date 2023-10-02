@@ -1,4 +1,4 @@
-import {getMetadata, Obelisk,TransactionBlock} from "@0xobelisk/client";
+import {getMetadata, Obelisk,TransactionBlock,BCS, getSuiMoveConfig, fromHEX, fromB64, fromB58} from "@0xobelisk/client";
 import {useEffect} from "react";
 import {useAtom} from "jotai";
 import {Value} from "../../jotai";
@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import {NETWORK, PACKAGE_ID, WORLD_ID} from "../../chain/config";
 import {obeliskConfig} from "../../../obelisk.config";
 import PRIVATEKEY from "../../chain/key";
+
+
 
 
 type data = {
@@ -44,10 +46,13 @@ const Home = () =>{
                 packageId: PACKAGE_ID,
                 metadata: metadata,
             });
-            const component_name = Object.keys(obeliskConfig.singletonComponents)[1]
+            const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
             const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-            const content = component_value.data.content as data
-            const value = content.fields.value.fields.value
+            const content = component_value.data!.content as data;
+            const res = content.fields!.value!.fields.data;
+            const bcs = new BCS(getSuiMoveConfig());
+            const byteArray = new Uint8Array(res);
+            const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
             setValue(value)
         }
     }
@@ -64,24 +69,37 @@ const Home = () =>{
                     metadata: metadata,
                 });
                 // counter component name
-                const component_name = Object.keys(obeliskConfig.singletonComponents)[1]
+                const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
                 const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-                const content = component_value.data.content as data
-                const value = content.fields.value.fields.value
+                const content = component_value.data!.content as data;
+                const res = content.fields!.value!.fields.data;
+                const bcs = new BCS(getSuiMoveConfig());
+                const byteArray = new Uint8Array(res);
+                const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
                 setValue(value)
             }
             query_counter()
         }
     }, [router.isReady]);
     return (
-        <div>
-            <div>
-                Counter: {value}
-            </div>
-            <div>
-                <button onClick={()=>{
-                    counter()
-                }}>Counter++</button>
+        <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8 flex-6">
+            <div className="flex flex-col gap-6 mt-12">
+                <div className="flex flex-col gap-4">
+                    You account already have some sui from localnet
+                    <div className="flex flex-col gap-6 text-2xl text-green-600 mt-6 ">
+                        Counter: {value}
+                    </div>
+                    <div className='flex flex-col gap-6'>
+                        <button
+                            type="button"
+                            className="mx-auto px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                            onClick={()=>{
+                                counter()
+                            }}>
+                            Increment
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     )

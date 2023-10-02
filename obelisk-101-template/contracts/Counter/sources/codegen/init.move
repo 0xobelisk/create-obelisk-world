@@ -1,18 +1,17 @@
-module Counter::init {
+module counter::init {
+    use std::ascii::string;
     use sui::transfer;
     use sui::tx_context::TxContext;
-    use Counter::world;
+    use counter::world;
 
-	use Counter::admin_component;
-	use Counter::counter_component;
+	use counter::counter_comp;
 
     fun init(ctx: &mut TxContext) {
-        let world = world::create_world(ctx);
+        let world = world::create(string(b"Counter"), string(b"Examples counter"),ctx);
 
         // Add Component
 
-		admin_component::register(&mut world);
-		counter_component::register(&mut world);
+		counter_comp::register(&mut world);
 
         transfer::public_share_object(world);
     }

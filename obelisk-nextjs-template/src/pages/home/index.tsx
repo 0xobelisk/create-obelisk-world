@@ -51,13 +51,8 @@ const Home = () =>{
             });
 
             const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
-            const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-            const content = component_value.data!.content as data;
-            const res = content.fields!.value!.fields.data;
-            const bcs = new BCS(getSuiMoveConfig());
-            const byteArray = new Uint8Array(res);
-            const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
-            setValue(value)
+            const component_value = await obelisk.getEntity(WORLD_ID,component_name)
+            setValue(component_value[0])
         }
     }
 
@@ -72,13 +67,8 @@ const Home = () =>{
                 });
                 // home component name
                 const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
-                const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-                const content = component_value.data!.content as data;
-                const res = content.fields!.value!.fields.data;
-                const bcs = new BCS(getSuiMoveConfig());
-                const byteArray = new Uint8Array(res);
-                const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
-                setValue(value)
+                const component_value = await obelisk.getEntity(WORLD_ID,component_name)
+                setValue(component_value[0])
             }
             query_counter()
         }

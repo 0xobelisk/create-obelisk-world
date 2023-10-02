@@ -6,14 +6,14 @@ settings:
 
 dependencies:
   '@0xobelisk/cli':
-    specifier: ^0.2.4
-    version: 0.2.4(google-protobuf@3.21.2)
+    specifier: ^0.3.1
+    version: 0.3.1(google-protobuf@3.21.2)
   '@0xobelisk/client':
-    specifier: ^0.2.5
-    version: 0.2.5(@mysten/sui.js@0.41.1)
+    specifier: ^0.3.1
+    version: 0.3.1(@mysten/sui.js@0.41.1)
   '@0xobelisk/common':
-    specifier: ^0.2.4
-    version: 0.2.4(google-protobuf@3.21.2)
+    specifier: ^0.3.1
+    version: 0.3.1(google-protobuf@3.21.2)
   '@mysten/sui.js':
     specifier: ^0.41.0
     version: 0.41.1(encoding@0.1.13)
@@ -133,12 +133,12 @@ devDependencies:
 
 packages:
 
-  /@0xobelisk/cli@0.2.4(google-protobuf@3.21.2):
-    resolution: {integrity: sha512-8u6nR3lchjMEI5b0Fch5+KGGn/dwNASSTDW5Md7BEuq/WsbRM7Y8O5YhfWqzbgrgcchbq/Wz9JC6to6mdUg3hw==}
+  /@0xobelisk/cli@0.3.1(google-protobuf@3.21.2):
+    resolution: {integrity: sha512-4JTHzP5Zpcrdc7npk51GGfrMGsTDGZvIdDvTnMByNbPyxnEXFMg6rRCbrw8t4pMfQ3lJAoSZ8GIdAL+JMNLUsA==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      '@0xobelisk/common': 0.2.4(google-protobuf@3.21.2)
+      '@0xobelisk/common': 0.3.1(google-protobuf@3.21.2)
       '@mysten/sui.js': 0.41.1(encoding@0.1.13)
       chalk: 5.3.0
       child_process: 1.0.2
@@ -168,8 +168,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@0xobelisk/client@0.2.5(@mysten/sui.js@0.41.1):
-    resolution: {integrity: sha512-Xi4YLQ6V/U9u76N1xdwRGTRTVUk5SSC3GEbNk88ZuWl5YZLhf63UttteVKlAzmMiIXlqypqBeeYlQmELTUNwgg==}
+  /@0xobelisk/client@0.3.1(@mysten/sui.js@0.41.1):
+    resolution: {integrity: sha512-BZ61NcV8ztcxv5zibrh89+OGmvvlb4idySXsmXY8wjhUVEQGW5x++pqNf+9YMFnOauOLXM2jbdlaZyc0EKDfbw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@mysten/sui.js': ^0.41.0
@@ -187,8 +187,8 @@ packages:
       ts-retry-promise: 0.7.1
     dev: false
 
-  /@0xobelisk/common@0.2.4(google-protobuf@3.21.2):
-    resolution: {integrity: sha512-4nYRbIapDPzPW3liMGEsE/7gNq1LmvWPrdhTN5IkAHjCNNJt1hdAJ8menGVIttDL++/amIjSWGv8TFRJtlOl3w==}
+  /@0xobelisk/common@0.3.1(google-protobuf@3.21.2):
+    resolution: {integrity: sha512-qzU99/n88np2pfTUaPNSalZ6ojEEN1G0s/DuMT7qP4o9x/lOHWqXR8A+R/hO/AUXvRGpBDndLLCTMpWRBc/vwQ==}
     engines: {node: '>=18'}
     dependencies:
       '@mysten/sui.js': 0.41.1(encoding@0.1.13)

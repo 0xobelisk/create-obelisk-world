@@ -39,14 +39,8 @@ export class sui extends Component {
             const address = keypair.getPublicKey().toSuiAddress();
             await obelisk.requestFaucet(address, NETWORK);
             const component_name = Object.keys(obeliskConfig.singletonComponents)[0];
-            const component_value = await obelisk.getComponentByName(WORLD_ID,component_name);
-            const content = component_value.data!.content as data;
-            const res = content.fields!.value!.fields.data;
-            const getSuiMoveConfig = obelisk_sdk.getSuiMoveConfig();
-            const bcs = new obelisk_sdk.BCS(getSuiMoveConfig);
-            const byteArray = new Uint8Array(res);
-            const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
-            console.log(value);
+            const component_value = await obelisk.getEntity(WORLD_ID,component_name)
+            console.log(component_value);
         }else{
             const metadata = await obelisk_sdk.getMetadata(NETWORK, PACKAGE_ID);
             const obelisk = new obelisk_sdk.Obelisk({
@@ -55,16 +49,10 @@ export class sui extends Component {
                 metadata: metadata,
             });
             const component_name = Object.keys(obeliskConfig.singletonComponents)[0];
-            const component_value = await obelisk.getComponentByName(WORLD_ID,component_name);
-            const content = component_value.data!.content as data;
-            const res = content.fields!.value!.fields.data;
-            const getSuiMoveConfig = obelisk_sdk.getSuiMoveConfig();
-            const bcs = new obelisk_sdk.BCS(getSuiMoveConfig);
-            const byteArray = new Uint8Array(res);
-            const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
+            const component_value = await obelisk.getEntity(WORLD_ID,component_name)
             const counter_node = find('Canvas/Camera/counter');
             const label = counter_node.getComponent("cc.Label") as LabelComponent;
-            label.string = `Counter: ${value}`;
+            label.string = `Counter: ${component_value}`;
         }
 
     }
@@ -117,17 +105,10 @@ export class sui extends Component {
                     metadata: metadata,
                 });
                 const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
-                const component_value = await obelisk.getComponentByName(WORLD_ID,component_name)
-                const content = component_value.data!.content as data;
-                const res = content.fields!.value!.fields.data;
-                const getSuiMoveConfig = obelisk_sdk.getSuiMoveConfig();
-                const bcs = new obelisk_sdk.BCS(getSuiMoveConfig);
-                const byteArray = new Uint8Array(res);
-                const value = bcs.de(obeliskConfig.singletonComponents[component_name].type, byteArray);
-                console.log(value);
+                const component_value = await obelisk.getEntity(WORLD_ID,component_name)
                 const counter_node = find('Canvas/Camera/counter');
                 const label = counter_node.getComponent("cc.Label") as LabelComponent;
-                label.string = `Counter: ${value}`;
+                label.string = `Counter: ${component_value}`;
             },
             100
         )

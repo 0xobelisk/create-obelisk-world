@@ -11,7 +11,7 @@ module counter::init {
 
         // Add Component
 
-		counter_comp::register(&mut world);
+		counter_comp::register(&mut world, ctx);
 
         transfer::public_share_object(world);
     }

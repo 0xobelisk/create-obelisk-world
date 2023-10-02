@@ -3271,6 +3271,36 @@ var SuiInteractor = class {
     const objects = await this.getObjects([id]);
     return objects[0];
   }
+  async getEntitiesObjects(ids) {
+    const options = {
+      showContent: true,
+      showType: true
+    };
+    for (const provider of this.providers) {
+      try {
+        const objects = await provider.multiGetObjects({
+          ids,
+          options
+        });
+        const parsedObjects = objects.map(object => {
+          const objectId = (0, _sui.getObjectId)(object);
+          const objectFields = (0, _sui.getObjectFields)(object);
+          const index = objectFields.name;
+          const key = objectFields.value;
+          return {
+            objectId,
+            index,
+            key
+          };
+        });
+        return parsedObjects;
+      } catch (err) {
+        await delay(2e3);
+        console.warn(`Failed to get objects with fullnode ${provider.connection.fullnode}: ${err}`);
+      }
+    }
+    throw new Error("Failed to get objects with all fullnodes");
+  }
   async getDynamicFieldObject(parentId, name) {
     for (const provider of this.providers) {
       try {
@@ -3481,8 +3511,28 @@ var SuiContractFactory = class {
   //   }
 };
 
-// src/obelisk.ts
+// src/utils/index.ts
 exports.SuiContractFactory = SuiContractFactory;
+function normalizeHexAddress(input) {
+  const hexRegex = /^(0x)?[0-9a-fA-F]{64}$/;
+  if (hexRegex.test(input)) {
+    if (input.startsWith("0x")) {
+      return input;
+    } else {
+      return "0x" + input;
+    }
+  } else {
+    return null;
+  }
+}
+function numberToAddressHex(num) {
+  const hex = num.toString(16);
+  const paddedHex = "0x" + hex.padStart(64, "0");
+  return paddedHex;
+}
+
+// src/obelisk.ts
+
 function isUndefined(value) {
   return value === void 0;
 }
@@ -3753,36 +3803,145 @@ var Obelisk = class {
   async getWorld(worldObjectId) {
     return this.suiInteractor.getObject(worldObjectId);
   }
-  async getComponents(worldId, cursor, limit) {
-    const parentId = (await this.suiInteractor.getObject(worldId)).objectFields.comps.fields.id.id;
-    return await this.suiInteractor.getDynamicFields(parentId, cursor, limit);
+  async listComponentNames(worldId) {
+    let worldObject = await this.getObject(worldId);
+    let newObjectContent = worldObject.objectFields;
+    return newObjectContent["compnames"];
   }
-  async getComponentByName(worldId, componentName) {
-    const componentNameId = `${componentName}`;
-    const componentId = (0, _keccak.default)(componentNameId);
-    return await this.getComponent(worldId, componentId);
+  async getEntity(worldId, componentName, entityId) {
+    let componentMoudleName = `${componentName}_comp`;
+    const tx = new _sui.TransactionBlock();
+    let params = [tx.pure(worldId)];
+    if (entityId !== void 0) {
+      params.push(tx.pure(entityId));
+    }
+    const getResult = await this.query[componentMoudleName].get(tx, params);
+    let returnValue = [];
+    let resultList = getResult.results[0].returnValues;
+    for (let res of resultList) {
+      const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
+      let value = Uint8Array.from(res[0]);
+      let data = bcs.de(res[1], value);
+      returnValue.push(data);
+    }
+    return returnValue;
   }
-  async getComponent(worldId, componentId) {
-    const componentIdValue = Array.from(componentId);
-    const parentId = (await this.suiInteractor.getObject(worldId)).objectFields.comps.fields.id.id;
-    const name = {
-      type: "address",
-      value: componentIdValue
-      // value: [250,208,186,160,39,171,62,206,98,224,138,41,11,217,63,100,248,104,207,64,78,126,43,109,129,68,64,127,236,113,152,132]
+  async getEntities(worldId, componentName, cursor, limit) {
+    let componentMoudleName = `${componentName}_comp`;
+    const tx = new _sui.TransactionBlock();
+    let params = [tx.pure(worldId)];
+    const tableResult = await this.query[componentMoudleName].entities(tx, params);
+    const entities = tableResult.results;
+    const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
+    let value = Uint8Array.from(entities[0].returnValues[0][0]);
+    let tableId = "0x" + bcs.de("address", value);
+    let dynamicFields = await this.suiInteractor.getDynamicFields(tableId, cursor, limit);
+    let objectIds = dynamicFields.data.map(field => field.objectId);
+    let objectDatas = await this.suiInteractor.getEntitiesObjects(objectIds);
+    return {
+      data: objectDatas,
+      nextCursor: dynamicFields.nextCursor,
+      hasNextPage: dynamicFields.hasNextPage
     };
-
-    return await this.suiInteractor.getDynamicFieldObject(parentId, name);
   }
-  async getOwnedEntities(owner, cursor, limit) {
+  // async getEntity(worldId: string, componentName: string, entityId: string) {
+  //   let checkWorldId = normalizeHexAddress(worldId);
+  //   if (checkWorldId) {
+  //     worldId = checkWorldId;
+  //   } else {
+  //     return undefined;
+  //   }
+  //   let checkEntityId = normalizeHexAddress(entityId);
+  //   if (checkEntityId) {
+  //     entityId = checkEntityId;
+  //   } else {
+  //     return undefined;
+  //   }
+  //   const parentId = await this.getComponentTable(worldId, componentName);
+  //   const name = {
+  //     type: 'address',
+  //     value: entityId,
+  //   } as DynamicFieldName;
+  //   let dynamicFieldObject = await this.suiInteractor.getDynamicFieldObject(
+  //     parentId,
+  //     name
+  //   );
+  //   return dynamicFieldObject;
+  // }
+  // async getEntityData(
+  //   worldId: string,
+  //   componentName: string,
+  //   entityId: string
+  // ) {
+  //   const parentId = await this.getComponentTable(worldId, componentName);
+  //   const name = {
+  //     type: 'address',
+  //     value: entityId,
+  //   } as DynamicFieldName;
+  //   let dynamicFieldObject = await this.suiInteractor.getDynamicFieldObject(
+  //     parentId,
+  //     name
+  //   );
+  //   let componentMoudleName = `${componentName}_comp`;
+  //   const tx = new TransactionBlock();
+  //   let params = [] as SuiTxArgument[];
+  //   const typeResult = (await this.query[componentMoudleName].types(
+  //     tx,
+  //     params
+  //   )) as DevInspectResults;
+  //   let typeReturn = typeResult.results as SuiReturnValues;
+  //   console.log(typeReturn[0].returnValues[0][0]);
+  //   const typeBCS = new BCS(getSuiMoveConfig());
+  //   let typeValue = Uint8Array.from(typeReturn[0].returnValues[0][0]);
+  //   let typeData = typeBCS.de('vector<vector<u8>>', typeValue);
+  //   console.log(typeData);
+  //   const entityType = String.fromCharCode(...typeData[0]);
+  //   let dynamicFieldContent = dynamicFieldObject.data!
+  //     .content as DynamicFieldContentType;
+  //   let entityValue = dynamicFieldContent.fields['value'];
+  //   const bcs = new BCS(getSuiMoveConfig());
+  //   let value = Uint8Array.from(entityValue);
+  //   console.log(entityType);
+  //   console.log(value);
+  //   let data = bcs.de(entityType, value);
+  //   console.log(data);
+  //   return data;
+  // }
+  async getOwnedObjects(owner, cursor, limit) {
     const ownedObjects = await this.suiInteractor.getOwnedObjects(owner, cursor, limit);
-    let ownedEntities = [];
+    let ownedObjectsRes = [];
     for (const object of ownedObjects.data) {
       let objectDetail = await this.getObject(object.data.objectId);
       if (objectDetail.objectType.split("::")[0] === this.contractFactory.packageId) {
-        ownedEntities.push(objectDetail);
+        ownedObjectsRes.push(objectDetail);
       }
     }
-    return ownedEntities;
+    return ownedObjectsRes;
+  }
+  async entity_key_from_object(objectId) {
+    let checkObjectId = normalizeHexAddress(objectId);
+    if (checkObjectId !== null) {
+      objectId = checkObjectId;
+      return objectId;
+    } else {
+      return void 0;
+    }
+  }
+  async entity_key_from_bytes(bytes) {
+    let hashBytes = (0, _keccak.default)(bytes);
+    const hashU8Array = Array.from(hashBytes);
+    const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
+    let value = Uint8Array.from(hashU8Array);
+    let data = bcs.de("address", value);
+    return "0x" + data;
+  }
+  async entity_key_from_u256(x) {
+    return numberToAddressHex(x);
+  }
+  async formatData(type, value) {
+    const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
+    let u8Value = Uint8Array.from(value);
+    return bcs.de(type, u8Value);
   }
 };
 exports.Obelisk = Obelisk;

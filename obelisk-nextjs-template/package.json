@@ -6,7 +6,13 @@
   "license": "GPL3",
   "scripts": {
     "dev": "pnpm run start-template",
+    "dev-devnet": "pnpm run start-devnet-template",
+    "dev-testnet": "pnpm run start-testnet-template",
     "start-template": "pnpm run localnode && sleep 5 && node src/scripts/index.js && obelisk faucet --network localnet && obelisk publish --network localnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
+    "start-devnet-template": "node src/scripts/index.js && obelisk faucet --network devnet && obelisk publish --network devnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
+    "start-testnet-template": "node src/scripts/index.js && obelisk publish --network testnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
+    "start-mainnet-template": "node src/scripts/index.js && obelisk publish --network mainnet --configPath obelisk.config.ts --savePath src/chain/config.ts && next",
+    "next": "next",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
@@ -25,9 +31,9 @@
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/common": "^0.2.8",
-    "@0xobelisk/client": "^0.2.8",
-    "@0xobelisk/cli": "^0.2.8",
+    "@0xobelisk/common": "^0.2.9",
+    "@0xobelisk/client": "^0.2.9",
+    "@0xobelisk/cli": "^0.2.9",
     "@mysten/sui.js": "^0.41.0",
     "@suiet/wallet-kit": "^0.2.19",
     "clsx": "^1.2.1",

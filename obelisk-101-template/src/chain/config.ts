@@ -1,9 +1,9 @@
 type NetworkType = 'testnet' | 'mainnet' | 'devnet' | 'localnet';
 
-const NETWORK: NetworkType = 'devnet';
+const NETWORK: NetworkType = 'localnet';
 
-const PACKAGE_ID = '0xaeac603705a1b18674aa786744a09c78152f5939e2660eb8bb7658320feda45b'
-const WORLD_ID = '0x197b1ab473714fb4383dd9fd3241c964aee7c532ebfa3028746766827f9ecfad'
+const PACKAGE_ID = '0x7c5ab7a3108ce2767195926b067d922c6cd311a46b88fcc585d692e732367d6a'
+const WORLD_ID = '0x1cfff93f0a70582e2f4e9f5557b3c2d30d65e0433f98afe642669f9e92b1480b'
 
 export {
     NETWORK,

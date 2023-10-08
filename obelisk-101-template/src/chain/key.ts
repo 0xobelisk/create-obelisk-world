@@ -1,3 +1,3 @@
 
-const PRIVATEKEY = 'b717b9893a73ffc274d1294510e08247e8ebe0e5a116fec7b88bcdb195267a35'
+const PRIVATEKEY = 'edfebb0ced86eea197534a5d0a786ab0dcf1260f552c882ed50f93fb2a1edaf4'
 export default PRIVATEKEY

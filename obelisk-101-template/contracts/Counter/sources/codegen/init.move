@@ -3,17 +3,15 @@ module counter::init {
     use sui::transfer;
     use sui::tx_context::TxContext;
     use counter::world;
-
-	use counter::counter_comp;
+	use counter::counter_schema;
 
     fun init(ctx: &mut TxContext) {
-        let world = world::create(string(b"Counter"), string(b"Examples counter"),ctx);
+        let _obelisk_world = world::create(string(b"Counter"), string(b"Counter"),ctx);
 
-        // Add Component
+        // Add Schema
+		counter_schema::register(&mut _obelisk_world, ctx);
 
-		counter_comp::register(&mut world);
-
-        transfer::public_share_object(world);
+        transfer::public_share_object(_obelisk_world);
     }
 
     #[test_only]

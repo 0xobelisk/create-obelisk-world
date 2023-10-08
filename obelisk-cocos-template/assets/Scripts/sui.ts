@@ -38,7 +38,7 @@ export class sui extends Component {
             });
             const address = keypair.getPublicKey().toSuiAddress();
             await obelisk.requestFaucet(address, NETWORK);
-            const component_name = Object.keys(obeliskConfig.singletonComponents)[0];
+            const component_name = Object.keys(obeliskConfig.schemas)[0]
             const component_value = await obelisk.getEntity(WORLD_ID,component_name)
             console.log(component_value);
         }else{
@@ -48,7 +48,7 @@ export class sui extends Component {
                 packageId: PACKAGE_ID,
                 metadata: metadata,
             });
-            const component_name = Object.keys(obeliskConfig.singletonComponents)[0];
+            const component_name = Object.keys(obeliskConfig.schemas)[0]
             const component_value = await obelisk.getEntity(WORLD_ID,component_name)
             const counter_node = find('Canvas/Camera/counter');
             const label = counter_node.getComponent("cc.Label") as LabelComponent;
@@ -104,7 +104,7 @@ export class sui extends Component {
                     packageId: PACKAGE_ID,
                     metadata: metadata,
                 });
-                const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
+                const component_name = Object.keys(obeliskConfig.schemas)[0]
                 const component_value = await obelisk.getEntity(WORLD_ID,component_name)
                 const counter_node = find('Canvas/Camera/counter');
                 const label = counter_node.getComponent("cc.Label") as LabelComponent;

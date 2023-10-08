@@ -19,7 +19,7 @@
     "test": "jest",
     "format": "prettier --write 'src/**/*ts'",
     "lint": "next lint",
-    "worldgen": "obelisk compgen obelisk.config.ts",
+    "worldgen": "obelisk schemagen obelisk.config.ts",
     "faucet-localnet": "obelisk faucet --network localnet",
     "faucet-devnet": "obelisk faucet --network devnet",
     "faucet-testnet": "obelisk faucet --network testnet",
@@ -31,9 +31,9 @@
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/common": "^0.3.1",
-    "@0xobelisk/client": "^0.3.1",
-    "@0xobelisk/cli": "^0.3.1",
+    "@0xobelisk/common": "^0.3.2",
+    "@0xobelisk/client": "^0.3.2",
+    "@0xobelisk/cli": "^0.3.2",
     "@mysten/sui.js": "^0.41.0",
     "@suiet/wallet-kit": "^0.2.19",
     "clsx": "^1.2.1",

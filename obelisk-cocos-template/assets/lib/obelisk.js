@@ -3606,10 +3606,10 @@ var Obelisk = class {
     if (metadata !== void 0) {
       this.metadata = metadata;
       Object.values(metadata).forEach(value => {
-        let data = value;
-        let moduleName = data.name;
+        const data = value;
+        const moduleName = data.name;
         Object.entries(data.exposedFunctions).forEach(([funcName, value2]) => {
-          let meta = value2;
+          const meta = value2;
           meta.moudleName = moduleName;
           meta.funcName = funcName;
           if (isUndefined(__privateGet(this, _query)[moduleName])) {
@@ -3803,115 +3803,85 @@ var Obelisk = class {
   async getWorld(worldObjectId) {
     return this.suiInteractor.getObject(worldObjectId);
   }
-  async listComponentNames(worldId) {
-    let worldObject = await this.getObject(worldId);
-    let newObjectContent = worldObject.objectFields;
-    return newObjectContent["compnames"];
+  async listSchemaNames(worldId) {
+    const worldObject = await this.getObject(worldId);
+    const newObjectContent = worldObject.objectFields;
+    return newObjectContent["schemaNames"];
   }
-  async getEntity(worldId, componentName, entityId) {
-    let componentMoudleName = `${componentName}_comp`;
+  async getEntity(worldId, schemaName, entityId) {
+    const schemaMoudleName = `${schemaName}_schema`;
     const tx = new _sui.TransactionBlock();
-    let params = [tx.pure(worldId)];
+    const params = [tx.pure(worldId)];
     if (entityId !== void 0) {
       params.push(tx.pure(entityId));
     }
-    const getResult = await this.query[componentMoudleName].get(tx, params);
-    let returnValue = [];
-    let resultList = getResult.results[0].returnValues;
-    for (let res of resultList) {
-      const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
-      let value = Uint8Array.from(res[0]);
-      let data = bcs.de(res[1], value);
-      returnValue.push(data);
+    const getResult = await this.query[schemaMoudleName].get(tx, params);
+    const returnValue = [];
+    if (getResult.effects.status.status === "success") {
+      const resultList = getResult.results[0].returnValues;
+      for (const res of resultList) {
+        const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
+        const value = Uint8Array.from(res[0]);
+        const data = bcs.de(res[1], value);
+        returnValue.push(data);
+      }
+      return returnValue;
+    } else {
+      return void 0;
     }
-    return returnValue;
   }
-  async getEntities(worldId, componentName, cursor, limit) {
-    let componentMoudleName = `${componentName}_comp`;
+  async containEntity(worldId, schemaName, entityId) {
+    const schemaMoudleName = `${schemaName}_schema`;
     const tx = new _sui.TransactionBlock();
-    let params = [tx.pure(worldId)];
-    const tableResult = await this.query[componentMoudleName].entities(tx, params);
-    const entities = tableResult.results;
-    const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
-    let value = Uint8Array.from(entities[0].returnValues[0][0]);
-    let tableId = "0x" + bcs.de("address", value);
-    let dynamicFields = await this.suiInteractor.getDynamicFields(tableId, cursor, limit);
-    let objectIds = dynamicFields.data.map(field => field.objectId);
-    let objectDatas = await this.suiInteractor.getEntitiesObjects(objectIds);
-    return {
-      data: objectDatas,
-      nextCursor: dynamicFields.nextCursor,
-      hasNextPage: dynamicFields.hasNextPage
-    };
+    const params = [tx.pure(worldId)];
+    if (entityId !== void 0) {
+      params.push(tx.pure(entityId));
+    }
+    const getResult = await this.query[schemaMoudleName].contains(tx, params);
+    if (getResult.effects.status.status === "success") {
+      const res = getResult.results[0].returnValues[0];
+      const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
+      const value = Uint8Array.from(res[0]);
+      return bcs.de(res[1], value);
+    } else {
+      return void 0;
+    }
   }
-  // async getEntity(worldId: string, componentName: string, entityId: string) {
-  //   let checkWorldId = normalizeHexAddress(worldId);
-  //   if (checkWorldId) {
-  //     worldId = checkWorldId;
-  //   } else {
-  //     return undefined;
-  //   }
-  //   let checkEntityId = normalizeHexAddress(entityId);
-  //   if (checkEntityId) {
-  //     entityId = checkEntityId;
-  //   } else {
-  //     return undefined;
-  //   }
-  //   const parentId = await this.getComponentTable(worldId, componentName);
-  //   const name = {
-  //     type: 'address',
-  //     value: entityId,
-  //   } as DynamicFieldName;
-  //   let dynamicFieldObject = await this.suiInteractor.getDynamicFieldObject(
-  //     parentId,
-  //     name
-  //   );
-  //   return dynamicFieldObject;
-  // }
-  // async getEntityData(
+  // async getEntities(
   //   worldId: string,
-  //   componentName: string,
-  //   entityId: string
+  //   schemaName: string,
+  //   cursor?: string,
+  //   limit?: number
   // ) {
-  //   const parentId = await this.getComponentTable(worldId, componentName);
-  //   const name = {
-  //     type: 'address',
-  //     value: entityId,
-  //   } as DynamicFieldName;
-  //   let dynamicFieldObject = await this.suiInteractor.getDynamicFieldObject(
-  //     parentId,
-  //     name
-  //   );
-  //   let componentMoudleName = `${componentName}_comp`;
+  //   let schemaMoudleName = `${schemaName}_schema`;
   //   const tx = new TransactionBlock();
-  //   let params = [] as SuiTxArgument[];
-  //   const typeResult = (await this.query[componentMoudleName].types(
+  //   let params = [tx.pure(worldId)] as SuiTxArgument[];
+  //   const tableResult = (await this.query[schemaonentMoudleName].entities(
   //     tx,
   //     params
   //   )) as DevInspectResults;
-  //   let typeReturn = typeResult.results as SuiReturnValues;
-  //   console.log(typeReturn[0].returnValues[0][0]);
-  //   const typeBCS = new BCS(getSuiMoveConfig());
-  //   let typeValue = Uint8Array.from(typeReturn[0].returnValues[0][0]);
-  //   let typeData = typeBCS.de('vector<vector<u8>>', typeValue);
-  //   console.log(typeData);
-  //   const entityType = String.fromCharCode(...typeData[0]);
-  //   let dynamicFieldContent = dynamicFieldObject.data!
-  //     .content as DynamicFieldContentType;
-  //   let entityValue = dynamicFieldContent.fields['value'];
+  //   const entities = tableResult.results as SuiReturnValues;
   //   const bcs = new BCS(getSuiMoveConfig());
-  //   let value = Uint8Array.from(entityValue);
-  //   console.log(entityType);
-  //   console.log(value);
-  //   let data = bcs.de(entityType, value);
-  //   console.log(data);
-  //   return data;
+  //   let value = Uint8Array.from(entities[0].returnValues[0][0]);
+  //   let tableId = '0x' + bcs.de('address', value);
+  //   let dynamicFields = await this.suiInteractor.getDynamicFields(
+  //     tableId,
+  //     cursor,
+  //     limit
+  //   );
+  //   let objectIds = dynamicFields.data.map((field) => field.objectId);
+  //   let objectDatas = await this.suiInteractor.getEntitiesObjects(objectIds);
+  //   return {
+  //     data: objectDatas,
+  //     nextCursor: dynamicFields.nextCursor,
+  //     hasNextPage: dynamicFields.hasNextPage,
+  //   };
   // }
   async getOwnedObjects(owner, cursor, limit) {
     const ownedObjects = await this.suiInteractor.getOwnedObjects(owner, cursor, limit);
-    let ownedObjectsRes = [];
+    const ownedObjectsRes = [];
     for (const object of ownedObjects.data) {
-      let objectDetail = await this.getObject(object.data.objectId);
+      const objectDetail = await this.getObject(object.data.objectId);
       if (objectDetail.objectType.split("::")[0] === this.contractFactory.packageId) {
         ownedObjectsRes.push(objectDetail);
       }
@@ -3919,7 +3889,7 @@ var Obelisk = class {
     return ownedObjectsRes;
   }
   async entity_key_from_object(objectId) {
-    let checkObjectId = normalizeHexAddress(objectId);
+    const checkObjectId = normalizeHexAddress(objectId);
     if (checkObjectId !== null) {
       objectId = checkObjectId;
       return objectId;
@@ -3928,11 +3898,11 @@ var Obelisk = class {
     }
   }
   async entity_key_from_bytes(bytes) {
-    let hashBytes = (0, _keccak.default)(bytes);
+    const hashBytes = (0, _keccak.default)(bytes);
     const hashU8Array = Array.from(hashBytes);
     const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
-    let value = Uint8Array.from(hashU8Array);
-    let data = bcs.de("address", value);
+    const value = Uint8Array.from(hashU8Array);
+    const data = bcs.de("address", value);
     return "0x" + data;
   }
   async entity_key_from_u256(x) {
@@ -3940,7 +3910,7 @@ var Obelisk = class {
   }
   async formatData(type, value) {
     const bcs = new _bcs.BCS((0, _bcs.getSuiMoveConfig)());
-    let u8Value = Uint8Array.from(value);
+    const u8Value = Uint8Array.from(value);
     return bcs.de(type, u8Value);
   }
 };

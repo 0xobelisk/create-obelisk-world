@@ -6,7 +6,7 @@
   },
   "scripts": {
     "dev": "pnpm run localnode && sleep 5 && node ./scripts/index.js && obelisk faucet --network localnet && obelisk publish --network localnet --configPath ./assets/Scripts/obelisk.config.ts --savePath assets/Scripts/chain/config.ts && tail -f localnode.nohup.out",
-    "worldgen": "obelisk compgen ./assets/Scripts/obelisk.config.ts",
+    "worldgen": "obelisk schemagen ./assets/Scripts/obelisk.config.ts",
     "faucet-localnet": "obelisk faucet --network localnet",
     "faucet-devnet": "obelisk faucet --network devnet",
     "faucet-testnet": "obelisk faucet --network testnet",
@@ -18,9 +18,9 @@
     "localnode": "nohup obelisk localnode > localnode.nohup.out &"
   },
   "dependencies": {
-    "@0xobelisk/common": "0.3.1",
-    "@0xobelisk/client": "^0.3.1",
-    "@0xobelisk/cli": "^0.3.1"
+    "@0xobelisk/common": "^0.3.2",
+    "@0xobelisk/client": "^0.3.2",
+    "@0xobelisk/cli": "^0.3.2"
   },
   "devDependencies": {
     "@types/node": "18.16.16",

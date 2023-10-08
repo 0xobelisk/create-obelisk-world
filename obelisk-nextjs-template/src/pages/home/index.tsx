@@ -50,7 +50,7 @@ const Home = () =>{
                 metadata: metadata,
             });
 
-            const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
+            const component_name = Object.keys(obeliskConfig.schemas)[0]
             const component_value = await obelisk.getEntity(WORLD_ID,component_name)
             setValue(component_value[0])
         }
@@ -66,7 +66,7 @@ const Home = () =>{
                     metadata: metadata,
                 });
                 // home component name
-                const component_name = Object.keys(obeliskConfig.singletonComponents)[0]
+                const component_name = Object.keys(obeliskConfig.schemas)[0]
                 const component_value = await obelisk.getEntity(WORLD_ID,component_name)
                 setValue(component_value[0])
             }

@@ -127,8 +127,13 @@ devDependencies:
 
 packages:
 
+<<<<<<< HEAD
   /@0xobelisk/cli@0.3.5:
     resolution: {integrity: sha512-DLOxtTYIAbfXQB5xe/s4omdXuV4hBJ1YBGYywnKdkwJQPcVN7HIbjf9WsL8SqO/zr0c4+2/8jo2ChrfrO7JeTA==}
+=======
+  /@0xobelisk/cli@0.3.2:
+    resolution: {integrity: sha512-gnJeQQGj0oRJA9m/Qh2OLzV6f4CjAgWTilm30PWYkRY7THvFE0lVE1Me+L1kUEEngIR9cLSzU+VFTYvHGcA6IA==}
+>>>>>>> 4b890302c3a34e29500392933bcd035b9d7dd25c
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
@@ -153,8 +158,13 @@ packages:
       - utf-8-validate
     dev: false
 
+<<<<<<< HEAD
   /@0xobelisk/client@0.3.4(@mysten/sui.js@0.41.1):
     resolution: {integrity: sha512-e6ukKYBT5szrVaEHimI7QbNf3dvDU8vX3wVHwxbDGcs8Kjp/BFftJkALSmv0bv8KhvssF8ACAz0a9ewv4oBNPw==}
+=======
+  /@0xobelisk/client@0.3.2(@mysten/sui.js@0.41.1):
+    resolution: {integrity: sha512-MZYXFP3VgvKvO3PifDnaR1epqP/WdjDL2ZXLtDhEKVfS7nucis1/tCnyJ3qRma6Xwi96Ab1se4dNCil5lBdSSA==}
+>>>>>>> 4b890302c3a34e29500392933bcd035b9d7dd25c
     engines: {node: '>=18'}
     peerDependencies:
       '@mysten/sui.js': ^0.41.0
@@ -192,6 +202,7 @@ packages:
       yargs: 17.7.2
       zod: 3.22.4
       zod-validation-error: 1.5.0(zod@3.22.4)
+<<<<<<< HEAD
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -218,6 +229,8 @@ packages:
       yargs: 17.7.2
       zod: 3.22.4
       zod-validation-error: 1.5.0(zod@3.22.4)
+=======
+>>>>>>> 4b890302c3a34e29500392933bcd035b9d7dd25c
     transitivePeerDependencies:
       - bufferutil
       - encoding

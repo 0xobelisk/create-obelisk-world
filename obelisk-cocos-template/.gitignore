@@ -26,3 +26,11 @@ node_modules/
 #//////////////////////////
 .idea/
 
+.env
+
+localnode.nohup.out
+
+contracts/counter/build
+contracts/counter/.history
+
+pnpm-lock.yaml

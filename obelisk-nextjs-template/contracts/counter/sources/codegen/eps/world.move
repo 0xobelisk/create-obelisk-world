@@ -8,7 +8,7 @@ module counter::world {
     use sui::object::{Self, UID, ID};
     use counter::entity_key;
 
-    const VERSION: u64 = 2;
+    const VERSION: u64 = 1;
 
     /// Schema does not exist
     const ESchemaDoesNotExist: u64 = 0;

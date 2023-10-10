@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@0xobelisk/cli':
-    specifier: ^0.3.2
-    version: 0.3.2
+    specifier: ^0.3.5
+    version: 0.3.5
   '@0xobelisk/client':
     specifier: ^0.3.2
     version: 0.3.2(@mysten/sui.js@0.41.1)
@@ -133,8 +133,8 @@ devDependencies:
 
 packages:
 
-  /@0xobelisk/cli@0.3.2:
-    resolution: {integrity: sha512-gnJeQQGj0oRJA9m/Qh2OLzV6f4CjAgWTilm30PWYkRY7THvFE0lVE1Me+L1kUEEngIR9cLSzU+VFTYvHGcA6IA==}
+  /@0xobelisk/cli@0.3.5:
+    resolution: {integrity: sha512-DLOxtTYIAbfXQB5xe/s4omdXuV4hBJ1YBGYywnKdkwJQPcVN7HIbjf9WsL8SqO/zr0c4+2/8jo2ChrfrO7JeTA==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
